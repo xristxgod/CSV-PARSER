@@ -5,12 +5,12 @@ from datetime import datetime
 class Utils:
     @staticmethod
     def get_timestamp(date: Union[str, datetime, int]) -> Tuple[int, int]:
-        if isinstance(date, str):
-            date: datetime = datetime.strptime(date, "%d.%m.%Y")
+        if isinstance(date, str) and not date.isdigit():
+            date: datetime = datetime.strptime(date.replace(" ", ""), "%d.%m.%Y")
         elif isinstance(date, datetime):
             date: datetime = date
-        elif isinstance(date, int) and len(str(date)) == 10:
-            date: datetime = datetime.fromtimestamp(date)
+        elif (isinstance(date, int) or (isinstance(date, str) and date.isdigit())) and len(str(date)) == 10:
+            date: datetime = datetime.fromtimestamp(int(date))
         else:
             return Utils.get_timestamp(date=datetime.now())
         return (

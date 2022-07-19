@@ -51,8 +51,8 @@ if __name__ == '__main__':
     tprint("PARSER SCRIPT", font="bulbhead")
     data = main(input(
         "Enter date:\n"
-        "Example: 12.12.2021 || 1639256400\n\n>>>"
+        "Example: 12.12.2021 || 1639256400\n\n>>>  "        # 1620297589
     ))
-    if not isinstance(data, bool) or data is not None:
+    if not isinstance(data, bool) and data is not None:
         print("\n\n")
         print(data)

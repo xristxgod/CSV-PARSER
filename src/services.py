@@ -51,7 +51,7 @@ class Core:
     def merge_data(server_data: List[ServerData], client_data: List[ClientData]) -> List[GeneralData]:
         general_data: List[GeneralData] = []
         for player in client_data:
-            server = list(filter(lambda x: x["error_id"] == player.error_id, server_data))
+            server = list(filter(lambda x: x.error_id == player.error_id, server_data))
             if len(server) > 0:
                 general_data.append(GeneralData(
                     timestamp=player.timestamp,
@@ -65,7 +65,17 @@ class Core:
 
     def add_to_database(self, general_data: List[GeneralData]) -> bool:
         if len(general_data) == 1:
-            self.__main_db.create((
-                "INSERT INTO general (timestamp, player_id, event_id, error_id, json_server, json_client) "
-                "VALUES (%d, %d, %d, %s, %s, %s)"
+            return self.__main_db.create((
+                    "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
+                    f"VALUES ({general_data[0].timestamp}, {general_data[0].player_id}, {general_data[0].event_id}, "
+                    f"'{general_data[0].error_id}', '{general_data[0].json_server}' '{general_data[0].json_client}');"
             ))
+        return self.__main_db.create("\n".join([
+            (
+                    "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
+                    f"VALUES ({data.timestamp}, {data.player_id}, {data.event_id}, "
+                    f"'{data.error_id}', '{data.json_server}' '{data.json_client}');"
+            )
+            for data in general_data
+        ]), True)
+
