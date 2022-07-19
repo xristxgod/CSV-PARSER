@@ -21,10 +21,7 @@ class CSVStorage(BaseStorage):
     def __init__(self, path: str):
         self.path: str = path
 
-    def connect(self) -> csv.DictReader:
-        with open(self.path, newline='') as file:
-            return csv.DictReader(file)
-
     def read(self) -> Generator:
-        for row in self.connect():
-            yield row
+        with open(self.path, newline='') as file:
+            for row in csv.DictReader(file):
+                yield row

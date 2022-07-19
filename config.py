@@ -20,7 +20,7 @@ logging.basicConfig(
 
 
 class Config:
-    DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{MAIN_DB}")
-    CHEATERS_DB_URL = os.getenv("CHEATERS_DB_URL", f"sqlite:///{CHEATERS_DB}")
+    MAIN_DB_PATH = os.getenv("MAIN_DB_PATH", MAIN_DB)
+    CHEATERS_DB_PATH = os.getenv("CHEATERS_DB_PATH", CHEATERS_DB)
     CLIENT_FILE = os.getenv("CLIENT_FILE", CLIENT_FILE)
     SERVER_FILE = os.getenv("SERVER_FILE", SERVER_FILE)
