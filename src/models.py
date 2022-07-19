@@ -31,6 +31,17 @@ class Database(BaseDB):
             logger.error(f"{error}")
             raise error
 
+    def create(self, sql: str, is_transaction: bool = False) -> bool:
+        try:
+            if not is_transaction:
+                self.cursor.execute(sql)
+            else:
+                self.cursor.executescript(sql)
+            self.connection.commit()
+        except Exception as error:
+            self.connection.rollback()
+            logger.error(f"{error}")
+
 
 # <<<===========================================>>> CSV Storages <<<=================================================>>>
 

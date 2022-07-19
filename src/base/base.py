@@ -6,6 +6,9 @@ class BaseDB:
     def read(self, sql: str, is_all: bool = False) -> Any:
         raise NotImplementedError
 
+    def create(self, sql: str, is_transaction: bool = False) -> bool:
+        raise NotImplementedError
+
 
 class BaseStorage:
 

@@ -43,11 +43,29 @@ class Core:
                 )
                 if any(data):
                     return data
-                raise Exception(f"Nothing has been found for this date: {Utils.get_datetime(date)}")
+                return None, None
             except Exception as error:
                 logger.error(f"{error}")
 
-    def merge_data(self, server_data: List[ServerData], client_data: List[ClientData]):
+    @staticmethod
+    def merge_data(server_data: List[ServerData], client_data: List[ClientData]) -> List[GeneralData]:
         general_data: List[GeneralData] = []
-        # for i in client_data:
-        #     if client_data
+        for player in client_data:
+            server = list(filter(lambda x: x["error_id"] == player.error_id, server_data))
+            if len(server) > 0:
+                general_data.append(GeneralData(
+                    timestamp=player.timestamp,
+                    player_id=player.player_id,
+                    event_id=server[0].event_id,
+                    error_id=player.error_id,
+                    json_client=player.description,
+                    json_server=server[0].description
+                ))
+        return general_data
+
+    def add_to_database(self, general_data: List[GeneralData]) -> bool:
+        if len(general_data) == 1:
+            self.__main_db.create((
+                "INSERT INTO general (timestamp, player_id, event_id, error_id, json_server, json_client) "
+                "VALUES (%d, %d, %d, %s, %s, %s)"
+            ))
