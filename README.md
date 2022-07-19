@@ -64,3 +64,5 @@ Example: WHERE ban_time > '2021-12-12 00:00:00'
 ------
 
 ### Screenshot of the work:
+![image](https://user-images.githubusercontent.com/84931791/179762350-7bd10c2c-949f-42af-a1a9-b495b165615b.png)
+
