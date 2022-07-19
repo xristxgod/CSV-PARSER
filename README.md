@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS general_model (
 
 </details>
 
-<details><summary>Request for data about cheaters in the bath:</summary>
+<details><summary>Request for data about cheaters in ban:</summary>
 
 ```sql
 SELECT player_id 
