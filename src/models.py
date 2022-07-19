@@ -1,31 +1,51 @@
 import sqlite3
+from typing import Optional
 
-import databases
-import sqlalchemy
-from sqlalchemy import Column, orm
-from sqlalchemy.types import Integer, BigInteger, JSON
-
+from .base import BaseDB
 from config import Config
 
 
-database = databases.Database(Config.DATABASE_URL)
-BaseModel = orm.declarative_base()
-engine = sqlalchemy.create_engine(Config.DATABASE_URL, connect_args={"check_same_thread": False})
-session = orm.Session(engine)
+# <<<===========================================>>> SQLite databases <<<=============================================>>>
 
 
-class StorageModel(BaseModel):
-    __tablename__ = "user_model"
-    id = Column(BigInteger, primary_key=True, unique=True)
-    timestamp = Column(BigInteger)
-    player_id = Column(Integer)
-    event_id = Column(Integer)
-    error_id = Column(Integer)
-    json_server = Column(JSON)
-    json_client = Column(JSON)
+class MainDB(BaseDB):
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(MainDB, cls).__new__(cls)
+        return cls.instance
+
+    def __init__(self):
+        self.connection: Optional[sqlite3.Connection] = None
+        self.cursor: Optional[sqlite3.Cursor] = None
+
+    def connect(self) -> Optional:
+        if self.connection is None:
+            self.connection = sqlite3.connect(Config.DATABASE_URL)
+            self.cursor = self.connection.cursor()
 
 
 class CheatersDB:
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(CheatersDB, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self):
-        self.connection = sqlite3.connect(Config.CHEATERS_DB_URL)
-        self.cursor = self.connection.cursor()
+        self.connection: Optional[sqlite3.Connection] = None
+        self.cursor: Optional[sqlite3.Cursor] = None
+
+    def connect(self) -> Optional:
+        if self.connection is None:
+            self.connection = sqlite3.connect(Config.CHEATERS_DB_URL)
+            self.cursor = self.connection.cursor()
+
+
+# <<<===========================================>>> CSV Storages <<<=================================================>>>
+
+
+class ServerStorage:
+    pass
+
+
+class ClientStorage:
+    pass
