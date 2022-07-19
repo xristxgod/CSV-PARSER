@@ -15,3 +15,12 @@ class ClientData:
     player_id: int
     error_id: int
     description: str
+
+
+@dataclass()
+class GeneralData:
+    timestamp: int
+    player_id: int
+    event_id: int
+    error_id: int
+    description: str
