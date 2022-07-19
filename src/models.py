@@ -38,9 +38,11 @@ class Database(BaseDB):
             else:
                 self.cursor.executescript(sql)
             self.connection.commit()
+            return True
         except Exception as error:
             self.connection.rollback()
             logger.error(f"{error}")
+            return False
 
 
 # <<<===========================================>>> CSV Storages <<<=================================================>>>

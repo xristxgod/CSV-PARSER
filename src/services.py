@@ -1,4 +1,5 @@
-from typing import Union, Tuple, List, Dict
+import json
+from typing import Union, Tuple, List
 from datetime import datetime
 
 from .models import Database, CSVStorage
@@ -66,15 +67,16 @@ class Core:
     def add_to_database(self, general_data: List[GeneralData]) -> bool:
         if len(general_data) == 1:
             return self.__main_db.create((
-                    "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
-                    f"VALUES ({general_data[0].timestamp}, {general_data[0].player_id}, {general_data[0].event_id}, "
-                    f"'{general_data[0].error_id}', '{general_data[0].json_server}' '{general_data[0].json_client}');"
+                "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
+                f"VALUES ({general_data[0].timestamp}, {general_data[0].player_id}, {general_data[0].event_id}, "
+                f"'{general_data[0].error_id}', '{general_data[0].json_server}', '{general_data[0].json_client}');"
             ))
-        return self.__main_db.create("\n".join([
+        return self.__main_db.create(" ".join([
             (
-                    "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
-                    f"VALUES ({data.timestamp}, {data.player_id}, {data.event_id}, "
-                    f"'{data.error_id}', '{data.json_server}' '{data.json_client}');"
+                "INSERT INTO general_model (timestamp, player_id, event_id, error_id, json_server, json_client) "
+                f"VALUES ({data.timestamp}, {data.player_id}, {data.event_id}, "
+                f"'{data.error_id}', '{data.json_server}', "
+                f"'{data.json_client}');"
             )
             for data in general_data
         ]), True)
