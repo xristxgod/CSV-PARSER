@@ -1,6 +1,15 @@
-from typing import Optional
+import csv
+from typing import Generator, Optional
 
 
 class BaseDB:
-    def connect(self) -> Optional:
+    pass
+
+
+class BaseStorage:
+
+    def connect(self) -> csv.DictReader:
+        raise NotImplementedError
+
+    def read(self) -> Generator:
         raise NotImplementedError
