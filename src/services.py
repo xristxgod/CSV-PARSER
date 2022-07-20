@@ -81,3 +81,5 @@ class Core:
             for data in general_data
         ]), True)
 
+
+core = Core()

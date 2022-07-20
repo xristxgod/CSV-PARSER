@@ -1,6 +1,5 @@
 """Test utils. In the file `src.utils.py` `Utils` class """
 import unittest
-from unittest.mock import Mock, patch
 from dataclasses import dataclass
 from datetime import datetime
 
